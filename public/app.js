@@ -47,70 +47,70 @@ const REGION_COORDINATES = Object.fromEntries(
 
 // Fallback Summary Data for all 28 locations (22 縣市 + 6 區域)
 const FALLBACK_SUMMARY = [
-  {"regionName": "基隆市", "avgTemp": 26.2, "minTemp": 22.8, "maxTemp": 29.2},
-  {"regionName": "臺北市", "avgTemp": 27.5, "minTemp": 23.7, "maxTemp": 31.0},
-  {"regionName": "新北市", "avgTemp": 27.1, "minTemp": 23.5, "maxTemp": 30.4},
-  {"regionName": "桃園市", "avgTemp": 26.9, "minTemp": 23.4, "maxTemp": 30.1},
-  {"regionName": "新竹市", "avgTemp": 26.5, "minTemp": 23.0, "maxTemp": 29.7},
-  {"regionName": "新竹縣", "avgTemp": 26.6, "minTemp": 22.9, "maxTemp": 30.0},
-  {"regionName": "苗栗縣", "avgTemp": 26.6, "minTemp": 22.6, "maxTemp": 30.3},
-  {"regionName": "臺中市", "avgTemp": 28.5, "minTemp": 24.7, "maxTemp": 32.3},
-  {"regionName": "彰化縣", "avgTemp": 28.1, "minTemp": 24.6, "maxTemp": 31.6},
-  {"regionName": "南投縣", "avgTemp": 27.7, "minTemp": 22.9, "maxTemp": 32.5},
-  {"regionName": "雲林縣", "avgTemp": 28.2, "minTemp": 24.3, "maxTemp": 32.0},
-  {"regionName": "嘉義市", "avgTemp": 28.6, "minTemp": 24.7, "maxTemp": 32.4},
-  {"regionName": "嘉義縣", "avgTemp": 28.0, "minTemp": 24.1, "maxTemp": 31.9},
-  {"regionName": "臺南市", "avgTemp": 28.9, "minTemp": 26.3, "maxTemp": 31.6},
-  {"regionName": "高雄市", "avgTemp": 29.2, "minTemp": 26.8, "maxTemp": 31.8},
-  {"regionName": "屏東縣", "avgTemp": 29.7, "minTemp": 27.1, "maxTemp": 32.4},
-  {"regionName": "宜蘭縣", "avgTemp": 26.2, "minTemp": 23.0, "maxTemp": 30.0},
-  {"regionName": "花蓮縣", "avgTemp": 27.1, "minTemp": 24.0, "maxTemp": 30.5},
-  {"regionName": "臺東縣", "avgTemp": 27.3, "minTemp": 25.0, "maxTemp": 30.5},
-  {"regionName": "澎湖縣", "avgTemp": 28.2, "minTemp": 25.9, "maxTemp": 30.7},
-  {"regionName": "金門縣", "avgTemp": 26.5, "minTemp": 22.7, "maxTemp": 30.2},
-  {"regionName": "連江縣", "avgTemp": 23.1, "minTemp": 19.8, "maxTemp": 26.1},
-  {"regionName": "北部地區", "avgTemp": 26.8, "minTemp": 23.3, "maxTemp": 29.9},
-  {"regionName": "中部地區", "avgTemp": 28.1, "minTemp": 24.5, "maxTemp": 31.7},
-  {"regionName": "南部地區", "avgTemp": 28.8, "minTemp": 26.5, "maxTemp": 31.2},
-  {"regionName": "東北部地區", "avgTemp": 26.2, "minTemp": 23.0, "maxTemp": 30.0},
-  {"regionName": "東部地區", "avgTemp": 27.1, "minTemp": 24.0, "maxTemp": 30.5},
-  {"regionName": "東南部地區", "avgTemp": 27.3, "minTemp": 25.0, "maxTemp": 30.5}
+  {"regionName": "基隆市", "avgTemp": 26.2, "minTemp": 22.8, "maxTemp": 29.2, "avgPoP": 56},
+  {"regionName": "臺北市", "avgTemp": 27.5, "minTemp": 23.7, "maxTemp": 31.0, "avgPoP": 37},
+  {"regionName": "新北市", "avgTemp": 27.1, "minTemp": 23.5, "maxTemp": 30.4, "avgPoP": 40},
+  {"regionName": "桃園市", "avgTemp": 26.9, "minTemp": 23.4, "maxTemp": 30.1, "avgPoP": 33},
+  {"regionName": "新竹市", "avgTemp": 26.5, "minTemp": 23.0, "maxTemp": 29.7, "avgPoP": 25},
+  {"regionName": "新竹縣", "avgTemp": 26.6, "minTemp": 22.9, "maxTemp": 30.0, "avgPoP": 26},
+  {"regionName": "苗栗縣", "avgTemp": 26.6, "minTemp": 22.6, "maxTemp": 30.3, "avgPoP": 23},
+  {"regionName": "臺中市", "avgTemp": 28.5, "minTemp": 24.7, "maxTemp": 32.3, "avgPoP": 22},
+  {"regionName": "彰化縣", "avgTemp": 28.1, "minTemp": 24.6, "maxTemp": 31.6, "avgPoP": 18},
+  {"regionName": "南投縣", "avgTemp": 27.7, "minTemp": 22.9, "maxTemp": 32.5, "avgPoP": 36},
+  {"regionName": "雲林縣", "avgTemp": 28.2, "minTemp": 24.3, "maxTemp": 32.0, "avgPoP": 17},
+  {"regionName": "嘉義市", "avgTemp": 28.6, "minTemp": 24.7, "maxTemp": 32.4, "avgPoP": 21},
+  {"regionName": "嘉義縣", "avgTemp": 28.0, "minTemp": 24.1, "maxTemp": 31.9, "avgPoP": 21},
+  {"regionName": "臺南市", "avgTemp": 28.9, "minTemp": 26.3, "maxTemp": 31.6, "avgPoP": 24},
+  {"regionName": "高雄市", "avgTemp": 29.2, "minTemp": 26.8, "maxTemp": 31.8, "avgPoP": 30},
+  {"regionName": "屏東縣", "avgTemp": 29.7, "minTemp": 27.1, "maxTemp": 32.4, "avgPoP": 35},
+  {"regionName": "宜蘭縣", "avgTemp": 26.2, "minTemp": 23.0, "maxTemp": 30.0, "avgPoP": 59},
+  {"regionName": "花蓮縣", "avgTemp": 27.1, "minTemp": 24.0, "maxTemp": 30.5, "avgPoP": 44},
+  {"regionName": "臺東縣", "avgTemp": 27.3, "minTemp": 25.0, "maxTemp": 30.5, "avgPoP": 38},
+  {"regionName": "澎湖縣", "avgTemp": 28.2, "minTemp": 25.9, "maxTemp": 30.7, "avgPoP": 15},
+  {"regionName": "金門縣", "avgTemp": 26.5, "minTemp": 22.7, "maxTemp": 30.2, "avgPoP": 18},
+  {"regionName": "連江縣", "avgTemp": 23.1, "minTemp": 19.8, "maxTemp": 26.1, "avgPoP": 23},
+  {"regionName": "北部地區", "avgTemp": 26.8, "minTemp": 23.3, "maxTemp": 29.9, "avgPoP": 39},
+  {"regionName": "中部地區", "avgTemp": 28.1, "minTemp": 24.5, "maxTemp": 31.7, "avgPoP": 22},
+  {"regionName": "南部地區", "avgTemp": 28.8, "minTemp": 26.5, "maxTemp": 31.2, "avgPoP": 30},
+  {"regionName": "東北部地區", "avgTemp": 26.2, "minTemp": 23.0, "maxTemp": 30.0, "avgPoP": 59},
+  {"regionName": "東部地區", "avgTemp": 27.1, "minTemp": 24.0, "maxTemp": 30.5, "avgPoP": 44},
+  {"regionName": "東南部地區", "avgTemp": 27.3, "minTemp": 25.0, "maxTemp": 30.5, "avgPoP": 38}
 ];
 
 // Fallback Forecasts Snapshot (Primary 6 regions baseline)
 const FALLBACK_FORECASTS = [
-  {"Date": "2026-10-04", "Region": "北部地區", "MinT": 23.3, "MaxT": 29.3},
-  {"Date": "2026-10-04", "Region": "中部地區", "MinT": 25.5, "MaxT": 30.9},
-  {"Date": "2026-10-04", "Region": "南部地區", "MinT": 26.5, "MaxT": 30.8},
-  {"Date": "2026-10-04", "Region": "東北部地區", "MinT": 23.0, "MaxT": 28.5},
-  {"Date": "2026-10-04", "Region": "東部地區", "MinT": 24.0, "MaxT": 29.0},
-  {"Date": "2026-10-04", "Region": "東南部地區", "MinT": 25.0, "MaxT": 29.5}
+  {"Date": "2026-10-04", "Region": "北部地區", "MinT": 23.3, "MaxT": 29.3, "PoP": 30},
+  {"Date": "2026-10-04", "Region": "中部地區", "MinT": 25.5, "MaxT": 30.9, "PoP": 20},
+  {"Date": "2026-10-04", "Region": "南部地區", "MinT": 26.5, "MaxT": 30.8, "PoP": 25},
+  {"Date": "2026-10-04", "Region": "東北部地區", "MinT": 23.0, "MaxT": 28.5, "PoP": 50},
+  {"Date": "2026-10-04", "Region": "東部地區", "MinT": 24.0, "MaxT": 29.0, "PoP": 40},
+  {"Date": "2026-10-04", "Region": "東南部地區", "MinT": 25.0, "MaxT": 29.5, "PoP": 35}
 ];
 
 // Offline county temperature offset mapping relative to parent regions
 const COUNTY_OFFSETS = {
-  "基隆市": { base: "北部地區", dMin: -0.5, dMax: -0.7 },
-  "臺北市": { base: "北部地區", dMin: 0.4, dMax: 1.1 },
-  "新北市": { base: "北部地區", dMin: 0.2, dMax: 0.5 },
-  "桃園市": { base: "北部地區", dMin: 0.1, dMax: 0.2 },
-  "新竹市": { base: "北部地區", dMin: -0.3, dMax: -0.2 },
-  "新竹縣": { base: "北部地區", dMin: -0.4, dMax: 0.1 },
-  "苗栗縣": { base: "北部地區", dMin: -0.7, dMax: 0.4 },
-  "臺中市": { base: "中部地區", dMin: 0.2, dMax: 0.6 },
-  "彰化縣": { base: "中部地區", dMin: 0.1, dMax: -0.1 },
-  "南投縣": { base: "中部地區", dMin: -1.6, dMax: 0.8 },
-  "雲林縣": { base: "中部地區", dMin: -0.2, dMax: 0.3 },
-  "嘉義市": { base: "中部地區", dMin: 0.2, dMax: 0.7 },
-  "嘉義縣": { base: "中部地區", dMin: -0.4, dMax: 0.2 },
-  "臺南市": { base: "南部地區", dMin: -0.2, dMax: 0.4 },
-  "高雄市": { base: "南部地區", dMin: 0.3, dMax: 0.6 },
-  "屏東縣": { base: "南部地區", dMin: 0.6, dMax: 1.2 },
-  "宜蘭縣": { base: "東北部地區", dMin: 0.0, dMax: 0.0 },
-  "花蓮縣": { base: "東部地區", dMin: 0.0, dMax: 0.0 },
-  "臺東縣": { base: "東南部地區", dMin: 0.0, dMax: 0.0 },
-  "澎湖縣": { base: "南部地區", dMin: -0.6, dMax: -0.5 },
-  "金門縣": { base: "中部地區", dMin: -1.8, dMax: -1.5 },
-  "連江縣": { base: "北部地區", dMin: -3.5, dMax: -3.8 }
+  "基隆市": { base: "北部地區", dMin: -0.5, dMax: -0.7, dPoP: 20 },
+  "臺北市": { base: "北部地區", dMin: 0.4, dMax: 1.1, dPoP: 0 },
+  "新北市": { base: "北部地區", dMin: 0.2, dMax: 0.5, dPoP: 5 },
+  "桃園市": { base: "北部地區", dMin: 0.1, dMax: 0.2, dPoP: -5 },
+  "新竹市": { base: "北部地區", dMin: -0.3, dMax: -0.2, dPoP: -10 },
+  "新竹縣": { base: "北部地區", dMin: -0.4, dMax: 0.1, dPoP: -10 },
+  "苗栗縣": { base: "北部地區", dMin: -0.7, dMax: 0.4, dPoP: -10 },
+  "臺中市": { base: "中部地區", dMin: 0.2, dMax: 0.6, dPoP: 0 },
+  "彰化縣": { base: "中部地區", dMin: 0.1, dMax: -0.1, dPoP: -5 },
+  "南投縣": { base: "中部地區", dMin: -1.6, dMax: 0.8, dPoP: 15 },
+  "雲林縣": { base: "中部地區", dMin: -0.2, dMax: 0.3, dPoP: -5 },
+  "嘉義市": { base: "中部地區", dMin: 0.2, dMax: 0.7, dPoP: 0 },
+  "嘉義縣": { base: "中部地區", dMin: -0.4, dMax: 0.2, dPoP: 0 },
+  "臺南市": { base: "南部地區", dMin: -0.2, dMax: 0.4, dPoP: -5 },
+  "高雄市": { base: "南部地區", dMin: 0.3, dMax: 0.6, dPoP: 0 },
+  "屏東縣": { base: "南部地區", dMin: 0.6, dMax: 1.2, dPoP: 5 },
+  "宜蘭縣": { base: "東北部地區", dMin: 0.0, dMax: 0.0, dPoP: 0 },
+  "花蓮縣": { base: "東部地區", dMin: 0.0, dMax: 0.0, dPoP: 0 },
+  "臺東縣": { base: "東南部地區", dMin: 0.0, dMax: 0.0, dPoP: 0 },
+  "澎湖縣": { base: "南部地區", dMin: -0.6, dMax: -0.5, dPoP: -15 },
+  "金門縣": { base: "中部地區", dMin: -1.8, dMax: -1.5, dPoP: -5 },
+  "連江縣": { base: "北部地區", dMin: -3.5, dMax: -3.8, dPoP: -10 }
 };
 
 // Global App State
@@ -269,15 +269,16 @@ async function loadRegionForecast(region) {
       .map(item => ({ Date: item.Date, MinT: item.MinT, MaxT: item.MaxT }));
   }
 
-  // 若為縣市且未在預載陣列中，依分區基準即時計算氣溫預報
+  // 若為縣市且未在預載陣列中，依分區基準即時計算氣溫與降雨預報
   if (!list || list.length === 0) {
     if (COUNTY_OFFSETS[region]) {
-      const { base, dMin, dMax } = COUNTY_OFFSETS[region];
+      const { base, dMin, dMax, dPoP } = COUNTY_OFFSETS[region];
       const baseList = FALLBACK_FORECASTS.filter(item => item.Region === base);
       list = baseList.map(item => ({
         Date: item.Date,
         MinT: Math.round((item.MinT + dMin) * 10) / 10,
-        MaxT: Math.round((item.MaxT + dMax) * 10) / 10
+        MaxT: Math.round((item.MaxT + dMax) * 10) / 10,
+        PoP: Math.max(0, Math.min(100, (item.PoP || 20) + (dPoP || 0)))
       }));
     }
   }
@@ -293,6 +294,7 @@ async function loadRegionForecast(region) {
   const firstDay = list[0];
   const allMin = list.map(item => item.MinT);
   const allMax = list.map(item => item.MaxT);
+  const allPoP = list.map(item => (item.PoP !== undefined ? item.PoP : 20));
 
   const avgMin = allMin.reduce((a, b) => a + b, 0) / allMin.length;
   const avgMax = allMax.reduce((a, b) => a + b, 0) / allMax.length;
@@ -302,13 +304,35 @@ async function loadRegionForecast(region) {
   const minTemp = Math.min(...allMin);
   const tempRange = (maxTemp - minTemp).toFixed(1);
 
+  const todayPoP = firstDay.PoP !== undefined ? firstDay.PoP : 20;
+
   document.getElementById("val-today-mint").textContent = firstDay.MinT.toFixed(1);
   document.getElementById("val-today-maxt").textContent = firstDay.MaxT.toFixed(1);
+  const popValEl = document.getElementById("val-today-pop");
+  if (popValEl) popValEl.textContent = todayPoP;
+
   document.getElementById("val-week-avg").textContent = weekAvg;
   document.getElementById("val-temp-range").textContent = tempRange;
 
   const todayDateEl = document.getElementById("label-today-date");
   if (todayDateEl) todayDateEl.textContent = `首日 (今天)：${firstDay.Date} (${getWeekday(firstDay.Date)})`;
+
+  const popDescEl = document.getElementById("label-today-pop-desc");
+  if (popDescEl) {
+    if (todayPoP <= 20) {
+      popDescEl.textContent = "☀️ 晴朗乾燥 · 降雨機率低";
+      popDescEl.style.color = "#0369a1";
+    } else if (todayPoP <= 40) {
+      popDescEl.textContent = "⛅ 局部多雲 · 降雨偏低";
+      popDescEl.style.color = "#0284c7";
+    } else if (todayPoP <= 60) {
+      popDescEl.textContent = "🌦️ 局部短暫陣雨 · 備雨具";
+      popDescEl.style.color = "#0284c7";
+    } else {
+      popDescEl.textContent = "🌧️ 降雨機率高 · 請攜帶雨具";
+      popDescEl.style.color = "#1d4ed8";
+    }
+  }
 
   // Update Chart
   renderChart(list);
@@ -338,7 +362,7 @@ async function loadRegionForecast(region) {
   }
 }
 
-// 3. Render Chart.js Double Line Chart (Red MaxT / Blue MinT)
+// 3. Render Chart.js Double Axis Chart (Red MaxT / Blue MinT / Cyan Bar PoP)
 function renderChart(forecastList) {
   const chartCanvas = document.getElementById("weatherChart");
   if (!chartCanvas) return;
@@ -346,6 +370,7 @@ function renderChart(forecastList) {
   const labels = forecastList.map(item => `${formatDisplayDate(item.Date)} (${getWeekday(item.Date)})`);
   const maxTemps = forecastList.map(item => item.MaxT);
   const minTemps = forecastList.map(item => item.MinT);
+  const popVals = forecastList.map(item => (item.PoP !== undefined ? item.PoP : 20));
 
   if (weatherChart) {
     weatherChart.destroy();
@@ -353,19 +378,19 @@ function renderChart(forecastList) {
 
   // Gradients for line fill
   const maxGradient = ctx.createLinearGradient(0, 0, 0, 300);
-  maxGradient.addColorStop(0, "rgba(231, 76, 60, 0.28)");
+  maxGradient.addColorStop(0, "rgba(231, 76, 60, 0.25)");
   maxGradient.addColorStop(1, "rgba(231, 76, 60, 0.0)");
 
   const minGradient = ctx.createLinearGradient(0, 0, 0, 300);
-  minGradient.addColorStop(0, "rgba(52, 152, 219, 0.25)");
+  minGradient.addColorStop(0, "rgba(52, 152, 219, 0.22)");
   minGradient.addColorStop(1, "rgba(52, 152, 219, 0.0)");
 
   weatherChart = new Chart(ctx, {
-    type: "line",
     data: {
       labels: labels,
       datasets: [
         {
+          type: "line",
           label: "最高溫 (MaxT)",
           data: maxTemps,
           borderColor: "#e74c3c", // 作業規範：MaxT 紅色
@@ -377,9 +402,12 @@ function renderChart(forecastList) {
           pointBorderColor: "#ffffff",
           pointBorderWidth: 2,
           pointRadius: 5,
-          pointHoverRadius: 7
+          pointHoverRadius: 7,
+          yAxisID: "y",
+          order: 1
         },
         {
+          type: "line",
           label: "最低溫 (MinT)",
           data: minTemps,
           borderColor: "#3498db", // 作業規範：MinT 藍色
@@ -391,7 +419,21 @@ function renderChart(forecastList) {
           pointBorderColor: "#ffffff",
           pointBorderWidth: 2,
           pointRadius: 5,
-          pointHoverRadius: 7
+          pointHoverRadius: 7,
+          yAxisID: "y",
+          order: 2
+        },
+        {
+          type: "bar",
+          label: "降雨機率 (PoP)",
+          data: popVals,
+          backgroundColor: "rgba(14, 165, 233, 0.35)",
+          borderColor: "rgba(14, 165, 233, 0.8)",
+          borderWidth: 1.5,
+          borderRadius: 6,
+          barPercentage: 0.35,
+          yAxisID: "y1",
+          order: 3
         }
       ]
     },
@@ -404,7 +446,13 @@ function renderChart(forecastList) {
       },
       plugins: {
         legend: {
-          display: false
+          display: true,
+          position: "top",
+          labels: {
+            usePointStyle: true,
+            boxWidth: 8,
+            font: { family: "'Plus Jakarta Sans', 'Noto Sans TC', sans-serif", size: 12 }
+          }
         },
         tooltip: {
           backgroundColor: "rgba(15, 23, 42, 0.9)",
@@ -415,6 +463,9 @@ function renderChart(forecastList) {
           usePointStyle: true,
           callbacks: {
             label: function(context) {
+              if (context.dataset.yAxisID === "y1") {
+                return ` 🌧️ ${context.dataset.label}: ${context.parsed.y} %`;
+              }
               return ` ${context.dataset.label}: ${context.parsed.y.toFixed(1)} °C`;
             }
           }
@@ -431,19 +482,44 @@ function renderChart(forecastList) {
           }
         },
         y: {
+          type: "linear",
+          display: true,
+          position: "left",
           title: {
             display: true,
-            text: "氣溫 Temperature (°C)",
+            text: "氣溫 (°C)",
             color: "#64748b",
-            font: { family: "'Plus Jakarta Sans', sans-serif", size: 12, weight: "bold" }
+            font: { size: 11, weight: "bold" }
           },
           grid: {
-            color: "rgba(226, 232, 240, 0.8)"
+            color: "rgba(226, 232, 240, 0.6)"
           },
           ticks: {
             font: { family: "'Plus Jakarta Sans', sans-serif", size: 11 },
             color: "#64748b",
             stepSize: 2
+          }
+        },
+        y1: {
+          type: "linear",
+          display: true,
+          position: "right",
+          min: 0,
+          max: 100,
+          title: {
+            display: true,
+            text: "降雨機率 (%)",
+            color: "#0284c7",
+            font: { size: 11, weight: "bold" }
+          },
+          grid: {
+            drawOnChartArea: false
+          },
+          ticks: {
+            font: { family: "'Plus Jakarta Sans', sans-serif", size: 11 },
+            color: "#0284c7",
+            stepSize: 25,
+            callback: function(v) { return v + "%"; }
           }
         }
       }
@@ -463,6 +539,17 @@ function renderTable(forecastList) {
     const cat = getTempCategory(avg);
     const isToday = (index === 0);
     const isTomorrow = (index === 1);
+    const pop = (item.PoP !== undefined) ? item.PoP : 20;
+
+    let popBadgeClass = "badge-pop-low";
+    let popIcon = "☀️";
+    if (pop > 60) {
+      popBadgeClass = "badge-pop-high";
+      popIcon = "🌧️";
+    } else if (pop > 30) {
+      popBadgeClass = "badge-pop-med";
+      popIcon = "🌦️";
+    }
 
     const tr = document.createElement("tr");
     if (isToday) tr.classList.add("row-today");
@@ -481,6 +568,14 @@ function renderTable(forecastList) {
       </td>
       <td>
         <span class="badge-temp badge-maxt-val">🔴 ${item.MaxT.toFixed(1)}°C</span>
+      </td>
+      <td>
+        <div class="badge-pop-container">
+          <span class="badge-pop ${popBadgeClass}">${popIcon} ${pop}%</span>
+          <div class="pop-bar-track">
+            <div class="pop-bar-fill" style="width: ${pop}%;"></div>
+          </div>
+        </div>
       </td>
       <td>
         <span class="delta-tag">Δ ${diff}°C</span>
@@ -615,6 +710,7 @@ function renderMapMarkers(summaryList) {
       ? `<span style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:4px;">(${locInfo.parentRegion})</span>` 
       : `<span style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:4px;">(分區)</span>`;
 
+    const avgPoP = (item.avgPoP !== undefined) ? item.avgPoP : 25;
     const popupContent = `
       <div class="custom-map-popup">
         <h4 class="popup-title">${locName} ${typeBadge}</h4>
@@ -630,12 +726,16 @@ function renderMapMarkers(summaryList) {
           <span>最高溫 MaxT：</span>
           <span style="color: #e74c3c; font-weight:600;">${item.maxTemp}°C</span>
         </div>
+        <div class="popup-row">
+          <span>降雨機率 PoP：</span>
+          <span style="color: #0284c7; font-weight:700;">💧 ${avgPoP}%</span>
+        </div>
         <button class="popup-btn" onclick="selectRegion('${locName}')">查看此預報</button>
       </div>
     `;
 
     marker.bindPopup(popupContent, { maxWidth: 220, offset: [20, -10] });
-    marker.bindTooltip(`<b>${locName}</b> · 均溫 ${avgTemp}°C`, { direction: "top", offset: [0, -16] });
+    marker.bindTooltip(`<b>${locName}</b> · 均溫 ${avgTemp}°C · 💧${avgPoP}%`, { direction: "top", offset: [0, -16] });
 
     marker.on("click", () => {
       selectRegion(locName);
@@ -664,6 +764,7 @@ function renderSummaryChips(summaryList) {
 
   filteredList.forEach(item => {
     const color = getTempColor(item.avgTemp);
+    const avgPoP = (item.avgPoP !== undefined) ? item.avgPoP : 25;
     const chip = document.createElement("div");
     const isActive = (item.regionName === currentRegion);
     chip.className = `summary-chip ${isActive ? 'active' : ''}`;
@@ -672,6 +773,7 @@ function renderSummaryChips(summaryList) {
       <span class="chip-dot" style="background-color: ${color};"></span>
       <strong>${item.regionName}</strong>
       <span>${item.avgTemp}°C</span>
+      <span style="font-size:0.75rem; color:#0284c7; margin-left:3px; font-weight:700;">💧${avgPoP}%</span>
     `;
     chip.addEventListener("click", () => {
       selectRegion(item.regionName);

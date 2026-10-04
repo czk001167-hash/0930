@@ -44,7 +44,7 @@ def handle_get_forecast(region_name):
     conn = get_db_connection()
     c = conn.cursor()
     query = """
-        SELECT dataDate AS Date, minT AS MinT, maxT AS MaxT
+        SELECT dataDate AS Date, minT AS MinT, maxT AS MaxT, pop AS PoP
         FROM TemperatureForecasts
         WHERE regionName = ?
         ORDER BY dataDate ASC;
@@ -58,7 +58,8 @@ def handle_get_forecast(region_name):
         {
             "Date": (today + datetime.timedelta(days=idx)).strftime("%Y-%m-%d"),
             "MinT": float(r["MinT"]),
-            "MaxT": float(r["MaxT"])
+            "MaxT": float(r["MaxT"]),
+            "PoP": int(r["PoP"]) if ("PoP" in r.keys() and r["PoP"] is not None) else 20
         }
         for idx, r in enumerate(rows)
     ]
@@ -74,7 +75,8 @@ def handle_get_summary():
                MIN(dataDate) as firstDate,
                AVG((minT + maxT) / 2.0) as avgTemp,
                MIN(minT) as minTemp,
-               MAX(maxT) as maxTemp
+               MAX(maxT) as maxTemp,
+               ROUND(AVG(pop)) as avgPoP
         FROM TemperatureForecasts
         GROUP BY regionName;
     """
@@ -88,7 +90,8 @@ def handle_get_summary():
             "firstDate": today_str,
             "avgTemp": round(float(r["avgTemp"]), 1) if r["avgTemp"] is not None else 0.0,
             "minTemp": float(r["minTemp"]) if r["minTemp"] is not None else 0.0,
-            "maxTemp": float(r["maxTemp"]) if r["maxTemp"] is not None else 0.0
+            "maxTemp": float(r["maxTemp"]) if r["maxTemp"] is not None else 0.0,
+            "avgPoP": int(r["avgPoP"]) if ("avgPoP" in r.keys() and r["avgPoP"] is not None) else 20
         }
         for r in rows
     ]

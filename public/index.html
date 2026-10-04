@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=2.1" />
+  <link rel="stylesheet" href="style.css?v=2.2" />
 </head>
 <body>
   <!-- Background Glow Accents -->
@@ -140,6 +140,18 @@
         <div class="metric-footer" id="label-today-peak">白天最高溫指標</div>
       </div>
 
+      <div class="metric-card metric-pop">
+        <div class="metric-header">
+          <span class="metric-icon">🌧️</span>
+          <span class="metric-label">今日降雨機率 (PoP)</span>
+        </div>
+        <div class="metric-value-container">
+          <span class="metric-value" id="val-today-pop" style="color: #0284c7;">--</span>
+          <span class="metric-unit">%</span>
+        </div>
+        <div class="metric-footer" id="label-today-pop-desc">降雨偏低 · 晴朗乾燥</div>
+      </div>
+
       <div class="metric-card metric-avg">
         <div class="metric-header">
           <span class="metric-icon">🌡️</span>
@@ -215,6 +227,7 @@
                   <th scope="col">預報日期 (Date)</th>
                   <th scope="col">最低溫 (MinT)</th>
                   <th scope="col">最高溫 (MaxT)</th>
+                  <th scope="col">降雨機率 (PoP)</th>
                   <th scope="col">當日溫差</th>
                   <th scope="col">氣溫區間等級</th>
                 </tr>
@@ -302,6 +315,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
   <!-- Application Script -->
-  <script src="app.js?v=2.1"></script>
+  <script src="app.js?v=2.2"></script>
 </body>
 </html>

@@ -164,7 +164,7 @@ def load_forecast_for_region(region_name: str):
     """使用 SQL 從 SQLite 資料庫查詢指定地區之一週預報"""
     conn = sqlite3.connect(DB_PATH)
     query = """
-        SELECT dataDate AS Date, minT AS MinT, maxT AS MaxT
+        SELECT dataDate AS Date, minT AS MinT, maxT AS MaxT, pop AS PoP
         FROM TemperatureForecasts
         WHERE regionName = ?
         ORDER BY dataDate ASC;
@@ -184,7 +184,8 @@ def load_all_regions_summary():
                MIN(dataDate) as firstDate,
                AVG((minT + maxT) / 2.0) as avgTemp,
                MIN(minT) as minTemp,
-               MAX(maxT) as maxTemp
+               MAX(maxT) as maxTemp,
+               ROUND(AVG(pop)) as avgPoP
         FROM TemperatureForecasts
         GROUP BY regionName;
     """
@@ -241,7 +242,7 @@ if df_forecast.empty:
     st.stop()
 
 # 顯示所選區域核心氣象指標 (KPI Metrics)
-col_m1, col_m2, col_m3, col_m4 = st.columns(4)
+col_m1, col_m2, col_m3, col_m4, col_m5 = st.columns(5)
 today_row = df_forecast.iloc[0]
 avg_temp = round((df_forecast["MinT"].mean() + df_forecast["MaxT"].mean()) / 2, 1)
 
@@ -262,6 +263,15 @@ with col_m2:
     """, unsafe_allow_html=True)
 
 with col_m3:
+    today_pop = int(today_row.get("PoP", 20))
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="label">🌧️ 今日降雨機率 (PoP)</div>
+        <div class="val" style="color: #0284c7;">{today_pop}%</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col_m4:
     st.markdown(f"""
     <div class="metric-card">
         <div class="label">🌡️ 本週平均溫度</div>
@@ -269,7 +279,7 @@ with col_m3:
     </div>
     """, unsafe_allow_html=True)
 
-with col_m4:
+with col_m5:
     temp_range = round(df_forecast['MaxT'].max() - df_forecast['MinT'].min(), 1)
     st.markdown(f"""
     <div class="metric-card">
@@ -308,7 +318,8 @@ with col_chart:
         column_config={
             "Date": st.column_config.TextColumn("預報日期 (Date)"),
             "MinT": st.column_config.NumberColumn("最低溫 (°C)", format="%.1f"),
-            "MaxT": st.column_config.NumberColumn("最高溫 (°C)", format="%.1f")
+            "MaxT": st.column_config.NumberColumn("最高溫 (°C)", format="%.1f"),
+            "PoP": st.column_config.ProgressColumn("降雨機率 (PoP)", format="%d%%", min_value=0, max_value=100)
         },
         hide_index=True,
         use_container_width=True
@@ -336,6 +347,7 @@ with col_map:
             avg_t = round(row["avgTemp"], 1)
             min_t = round(row["minTemp"], 1)
             max_t = round(row["maxTemp"], 1)
+            avg_pop = int(row.get("avgPoP", 25))
             color_hex = get_temp_color(avg_t)
 
             popup_html = f"""
@@ -344,6 +356,7 @@ with col_map:
                 <p style="margin: 3px 0; font-size: 13px;"><b>一週均溫:</b> <span style="color:{color_hex}; font-weight:bold;">{avg_t}°C</span></p>
                 <p style="margin: 3px 0; font-size: 13px;"><b>最低溫 MinT:</b> {min_t}°C</p>
                 <p style="margin: 3px 0; font-size: 13px;"><b>最高溫 MaxT:</b> {max_t}°C</p>
+                <p style="margin: 3px 0; font-size: 13px;"><b>降雨機率 PoP:</b> <span style="color:#0284c7; font-weight:bold;">{avg_pop}%</span></p>
             </div>
             """
 
