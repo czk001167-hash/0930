@@ -600,23 +600,28 @@ async function initTaiwanMap() {
 
   try {
     if (typeof L !== "undefined") {
-      // Center on Taiwan [23.7, 120.95], zoom level 7
+      // Center on Taiwan [23.7, 120.95] with fractional zoom capability
       leafletMap = L.map("taiwan-map", {
         center: [23.7, 120.95],
-        zoom: 7,
+        zoom: 7.6,
+        zoomSnap: 0.2,
+        zoomDelta: 0.5,
         zoomControl: true,
         scrollWheelZoom: true
       });
 
-      // CARTO Voyager tiles with clean pastel ocean & green terrain (matching user screenshot)
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-        attribution: '&copy; CARTO &copy; OpenStreetMap',
-        maxZoom: 18,
-        subdomains: ['a', 'b', 'c', 'd']
+      // OpenStreetMap tiles (100% free, zero watermark, no API key required)
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+        subdomains: ['a', 'b', 'c']
       }).addTo(leafletMap);
 
       setTimeout(() => {
-        if (leafletMap) leafletMap.invalidateSize();
+        if (leafletMap) {
+          leafletMap.invalidateSize();
+          fitTaiwanBounds(false);
+        }
       }, 300);
     }
   } catch (err) {
@@ -652,8 +657,34 @@ async function initTaiwanMap() {
 
   if (leafletMap) {
     renderMapMarkers(currentSummaryList);
+    fitTaiwanBounds(false);
   }
   renderSummaryChips(currentSummaryList);
+}
+
+// Fit map view tightly to Taiwan bounds according to current mode
+function fitTaiwanBounds(animate = false) {
+  if (!leafletMap) return;
+  const isCountyMode = (currentMapMode === "counties");
+  const options = {
+    padding: [25, 25],
+    maxZoom: 8.5,
+    animate: animate
+  };
+
+  if (isCountyMode) {
+    // 包含澎湖、金門、連江等外島
+    leafletMap.fitBounds([
+      [21.8, 118.2],
+      [26.3, 122.1]
+    ], options);
+  } else {
+    // 六大分區：專注本島，完美對齊截圖
+    leafletMap.fitBounds([
+      [21.85, 120.0],
+      [25.35, 122.1]
+    ], options);
+  }
 }
 
 function renderMapMarkers(summaryList) {
@@ -804,6 +835,7 @@ window.setMapMode = function(mode) {
   if (currentSummaryList && currentSummaryList.length > 0) {
     renderMapMarkers(currentSummaryList);
     renderSummaryChips(currentSummaryList);
+    fitTaiwanBounds(true);
   }
 };
 
@@ -835,13 +867,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Quick pill clicks
-  document.querySelectorAll(".region-pill").forEach(pill => {
-    pill.addEventListener("click", () => {
-      selectRegion(pill.dataset.region);
-    });
-  });
-
   // Refresh button
   const refreshBtn = document.getElementById("refresh-btn");
   if (refreshBtn) {
@@ -857,9 +882,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const resetBtn = document.getElementById("map-reset-btn");
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
-      if (leafletMap) {
-        leafletMap.setView([23.7, 120.95], 7, { animate: true });
-      }
+      fitTaiwanBounds(true);
     });
   }
 
