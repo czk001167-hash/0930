@@ -10,6 +10,7 @@ import os
 import sys
 import json
 import sqlite3
+import datetime
 import webbrowser
 from urllib.parse import urlparse, parse_qs, unquote
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -51,7 +52,16 @@ def handle_get_forecast(region_name):
     c.execute(query, (region_name,))
     rows = c.fetchall()
     conn.close()
-    data = [{"Date": r["Date"], "MinT": float(r["MinT"]), "MaxT": float(r["MaxT"])} for r in rows]
+    # 動態滾動日期：以今天為第 1 天，向後預報未來一週 (7天)
+    today = datetime.date.today()
+    data = [
+        {
+            "Date": (today + datetime.timedelta(days=idx)).strftime("%Y-%m-%d"),
+            "MinT": float(r["MinT"]),
+            "MaxT": float(r["MaxT"])
+        }
+        for idx, r in enumerate(rows)
+    ]
     return {"region": region_name, "data": data}, 200
 
 def handle_get_summary():
@@ -71,10 +81,11 @@ def handle_get_summary():
     c.execute(query)
     rows = c.fetchall()
     conn.close()
+    today_str = datetime.date.today().strftime("%Y-%m-%d")
     summary = [
         {
             "regionName": r["regionName"],
-            "firstDate": r["firstDate"],
+            "firstDate": today_str,
             "avgTemp": round(float(r["avgTemp"]), 1) if r["avgTemp"] is not None else 0.0,
             "minTemp": float(r["minTemp"]) if r["minTemp"] is not None else 0.0,
             "maxTemp": float(r["maxTemp"]) if r["maxTemp"] is not None else 0.0
@@ -180,11 +191,12 @@ def run_server():
     print("=" * 60)
     print("提示：在終端機按下 Ctrl + C 即可停止伺服器\n")
 
-    # Auto open in browser if not running in headless script
-    try:
-        webbrowser.open(url)
-    except Exception:
-        pass
+    # Auto open in browser if not running in headless script or NO_BROWSER
+    if not os.environ.get("NO_BROWSER"):
+        try:
+            webbrowser.open(url)
+        except Exception:
+            pass
 
     try:
         httpd.serve_forever()

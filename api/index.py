@@ -8,6 +8,7 @@ Complies with assignment requirement: 使用 SQL 從 SQLite 查詢資料，嚴�
 import os
 import json
 import sqlite3
+import datetime
 from urllib.parse import urlparse, parse_qs, unquote
 from http.server import BaseHTTPRequestHandler
 
@@ -72,13 +73,15 @@ def handle_get_forecast(region_name):
     rows = cursor.fetchall()
     conn.close()
     
+    # 動態滾動日期：以今天為第 1 天，向後預報未來一週 (7天)
+    today = datetime.date.today()
     data = [
         {
-            "Date": row["Date"],
+            "Date": (today + datetime.timedelta(days=idx)).strftime("%Y-%m-%d"),
             "MinT": float(row["MinT"]),
             "MaxT": float(row["MaxT"])
         }
-        for row in rows
+        for idx, row in enumerate(rows)
     ]
     return {"region": region_name, "data": data}, 200
 
@@ -103,10 +106,11 @@ def handle_get_summary():
     rows = cursor.fetchall()
     conn.close()
     
+    today_str = datetime.date.today().strftime("%Y-%m-%d")
     summary = [
         {
             "regionName": row["regionName"],
-            "firstDate": row["firstDate"],
+            "firstDate": today_str,
             "avgTemp": round(float(row["avgTemp"]), 1) if row["avgTemp"] is not None else 0.0,
             "minTemp": float(row["minTemp"]) if row["minTemp"] is not None else 0.0,
             "maxTemp": float(row["maxTemp"]) if row["maxTemp"] is not None else 0.0

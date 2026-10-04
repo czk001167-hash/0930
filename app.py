@@ -10,6 +10,7 @@ app.py - Streamlit 氣溫預報互動式 Web 應用程式
 
 import sqlite3
 import os
+import datetime
 import streamlit as st
 import pandas as pd
 import folium
@@ -90,8 +91,32 @@ st.markdown("""
 
 DB_PATH = "data.db"
 
-# 六大區域中心經緯度座標（用於 Folium 地圖標記）
+# 全台各縣市與六大分區中心經緯度座標（用於 Folium 地圖標記）
 REGION_COORDINATES = {
+    # 全台 22 縣市
+    "基隆市": [25.1276, 121.7392],
+    "臺北市": [25.0375, 121.5637],
+    "新北市": [25.0124, 121.4657],
+    "桃園市": [24.9936, 121.3010],
+    "新竹市": [24.8138, 120.9675],
+    "新竹縣": [24.8387, 121.0177],
+    "苗栗縣": [24.5602, 120.8214],
+    "臺中市": [24.1477, 120.6736],
+    "彰化縣": [24.0518, 120.5161],
+    "南投縣": [23.9609, 120.9719],
+    "雲林縣": [23.7092, 120.4313],
+    "嘉義市": [23.4800, 120.4491],
+    "嘉義縣": [23.4518, 120.2559],
+    "臺南市": [22.9997, 120.2270],
+    "高雄市": [22.6273, 120.3014],
+    "屏東縣": [22.6762, 120.4879],
+    "宜蘭縣": [24.7570, 121.7530],
+    "花蓮縣": [23.9872, 121.6016],
+    "臺東縣": [22.7583, 121.1444],
+    "澎湖縣": [23.5712, 119.5793],
+    "金門縣": [24.4493, 118.3766],
+    "連江縣": [26.1557, 119.9519],
+    # 六大分區
     "北部地區": [25.04, 121.55],
     "中部地區": [24.15, 120.67],
     "南部地區": [22.62, 120.30],
@@ -146,6 +171,9 @@ def load_forecast_for_region(region_name: str):
     """
     df = pd.read_sql_query(query, conn, params=(region_name,))
     conn.close()
+    if not df.empty:
+        today = datetime.date.today()
+        df["Date"] = [(today + datetime.timedelta(days=i)).strftime("%Y-%m-%d") for i in range(len(df))]
     return df
 
 def load_all_regions_summary():
@@ -162,6 +190,8 @@ def load_all_regions_summary():
     """
     df = pd.read_sql_query(query, conn)
     conn.close()
+    if not df.empty:
+        df["firstDate"] = datetime.date.today().strftime("%Y-%m-%d")
     return df
 
 # 主畫面標題
@@ -285,8 +315,8 @@ with col_chart:
     )
 
 with col_map:
-    st.subheader("🗺️ 台灣六大區域氣溫地圖")
-    st.caption("依各區平均氣溫動態標色，點擊圖中圓點即可查看該區詳細氣溫卡片。")
+    st.subheader("🗺️ 台灣全省各縣市氣溫地圖")
+    st.caption("依全台各縣市平均氣溫動態標色，點擊圖中圓點即可查看該縣市詳細氣溫卡片。")
 
     # 取得六大區域彙總數據
     df_summary = load_all_regions_summary()
@@ -317,16 +347,43 @@ with col_map:
             </div>
             """
 
-            folium.CircleMarker(
+            short_name = reg_name.replace("地區", "")
+            icon_html = f"""
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                background: #ffffff;
+                border: 2px solid #f59e0b;
+                border-radius: 9999px;
+                padding: 2px 8px 2px 4px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+                white-space: nowrap;
+                font-family: -apple-system, sans-serif;
+                font-size: 12px;
+                font-weight: bold;
+                color: #1e293b;
+            ">
+                <span style="
+                    display: inline-block;
+                    width: 14px;
+                    height: 14px;
+                    border-radius: 50%;
+                    background-color: {color_hex};
+                    border: 1.5px solid #ffffff;
+                "></span>
+                <span>{short_name}</span>
+            </div>
+            """
+            folium.Marker(
                 location=coord,
-                radius=14,
+                icon=folium.DivIcon(
+                    icon_size=(90, 28),
+                    icon_anchor=(12, 14),
+                    html=icon_html
+                ),
                 popup=folium.Popup(popup_html, max_width=250),
-                tooltip=f"<b>{reg_name}</b> (均溫 {avg_t}°C，點擊查看詳情)",
-                color=color_hex,
-                fill=True,
-                fill_color=color_hex,
-                fill_opacity=0.85,
-                weight=2
+                tooltip=f"<b>{reg_name}</b> (均溫 {avg_t}°C)"
             ).add_to(m)
 
     # 嵌入地圖

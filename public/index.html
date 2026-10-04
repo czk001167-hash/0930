@@ -44,7 +44,7 @@
           <span class="pulse-dot"></span>
           <span id="api-status-text">連線至 Vercel Serverless API...</span>
         </div>
-        <div class="last-sync" id="db-record-info">資料庫：data.db (42 筆記錄)</div>
+        <div class="last-sync" id="db-record-info">資料庫：data.db (全台 22 縣市 · 196 筆記錄)</div>
       </div>
     </header>
 
@@ -52,28 +52,59 @@
     <section class="controls-panel">
       <div class="control-group">
         <label for="region-select" class="control-label">
-          <span class="label-icon">📍</span> 選擇預報地區 (Select Region)：
+          <span class="label-icon">📍</span> 選擇預報地區 / 縣市 (Select Location)：
         </label>
         <div class="select-wrapper">
-          <select id="region-select" class="custom-select" aria-label="選擇地區">
-            <option value="中部地區" selected>中部地區</option>
-            <option value="北部地區">北部地區</option>
-            <option value="南部地區">南部地區</option>
-            <option value="東北部地區">東北部地區</option>
-            <option value="東部地區">東部地區</option>
-            <option value="東南部地區">東南部地區</option>
+          <select id="region-select" class="custom-select" aria-label="選擇地區或縣市">
+            <optgroup label="── 全台各縣市 (22 縣市) ──">
+              <option value="基隆市">基隆市</option>
+              <option value="臺北市">臺北市</option>
+              <option value="新北市">新北市</option>
+              <option value="桃園市">桃園市</option>
+              <option value="新竹市">新竹市</option>
+              <option value="新竹縣">新竹縣</option>
+              <option value="苗栗縣">苗栗縣</option>
+              <option value="臺中市" selected>臺中市</option>
+              <option value="彰化縣">彰化縣</option>
+              <option value="南投縣">南投縣</option>
+              <option value="雲林縣">雲林縣</option>
+              <option value="嘉義市">嘉義市</option>
+              <option value="嘉義縣">嘉義縣</option>
+              <option value="臺南市">臺南市</option>
+              <option value="高雄市">高雄市</option>
+              <option value="屏東縣">屏東縣</option>
+              <option value="宜蘭縣">宜蘭縣</option>
+              <option value="花蓮縣">花蓮縣</option>
+              <option value="臺東縣">臺東縣</option>
+              <option value="澎湖縣">澎湖縣</option>
+              <option value="金門縣">金門縣</option>
+              <option value="連江縣">連江縣</option>
+            </optgroup>
+            <optgroup label="── 六大分區 (作業原版) ──">
+              <option value="北部地區">北部地區</option>
+              <option value="中部地區">中部地區</option>
+              <option value="南部地區">南部地區</option>
+              <option value="東北部地區">東北部地區</option>
+              <option value="東部地區">東部地區</option>
+              <option value="東南部地區">東南部地區</option>
+            </optgroup>
           </select>
         </div>
       </div>
 
       <!-- Quick region pill tabs -->
-      <div class="quick-regions" id="quick-regions" role="tablist" aria-label="快速切換分區">
-        <button class="region-pill active" data-region="中部地區">中部地區</button>
+      <div class="quick-regions" id="quick-regions" role="tablist" aria-label="熱門縣市與分區快速切換">
+        <button class="region-pill active" data-region="臺中市">臺中市</button>
+        <button class="region-pill" data-region="臺北市">臺北市</button>
+        <button class="region-pill" data-region="新北市">新北市</button>
+        <button class="region-pill" data-region="高雄市">高雄市</button>
+        <button class="region-pill" data-region="臺南市">臺南市</button>
+        <button class="region-pill" data-region="桃園市">桃園市</button>
+        <button class="region-pill" data-region="宜蘭縣">宜蘭縣</button>
+        <button class="region-pill" data-region="花蓮縣">花蓮縣</button>
+        <button class="region-pill" data-region="中部地區">中部地區</button>
         <button class="region-pill" data-region="北部地區">北部地區</button>
         <button class="region-pill" data-region="南部地區">南部地區</button>
-        <button class="region-pill" data-region="東北部地區">東北部地區</button>
-        <button class="region-pill" data-region="東部地區">東部地區</button>
-        <button class="region-pill" data-region="東南部地區">東南部地區</button>
       </div>
 
       <div class="controls-meta">
@@ -88,19 +119,19 @@
       <div class="metric-card metric-mint">
         <div class="metric-header">
           <span class="metric-icon">📅</span>
-          <span class="metric-label">首日最低溫 (MinT)</span>
+          <span class="metric-label">今日最低溫 (MinT)</span>
         </div>
         <div class="metric-value-container">
           <span class="metric-value" id="val-today-mint">--</span>
           <span class="metric-unit">°C</span>
         </div>
-        <div class="metric-footer" id="label-today-date">第一天預測起點</div>
+        <div class="metric-footer" id="label-today-date">今天 (第 1 天起點)</div>
       </div>
 
       <div class="metric-card metric-maxt">
         <div class="metric-header">
           <span class="metric-icon">📅</span>
-          <span class="metric-label">首日最高溫 (MaxT)</span>
+          <span class="metric-label">今日最高溫 (MaxT)</span>
         </div>
         <div class="metric-value-container">
           <span class="metric-value" id="val-today-maxt">--</span>
@@ -173,7 +204,7 @@
           <div class="card-header">
             <div>
               <h2 class="card-title">📋 一週預報資料表格 (7 天詳細預報)</h2>
-              <p class="card-subtitle">SQL 查詢對應作業欄位：Date, MinT, MaxT</p>
+              <p class="card-subtitle">每次以今日為第 1 天，向後預報未來一週 7 天氣溫</p>
             </div>
             <span class="badge" id="table-count-badge">7 筆預報</span>
           </div>
@@ -201,10 +232,16 @@
         <article class="card map-card">
           <div class="card-header">
             <div>
-              <h2 class="card-title">🗺️ 台灣六大區域氣溫地圖</h2>
-              <p class="card-subtitle">依各區平均氣溫動態標色，點擊圖中圓點即可切換分區並查看氣溫詳情</p>
+              <h2 class="card-title">🗺️ 台灣互動式氣溫地圖</h2>
+              <p class="card-subtitle">依氣溫分級動態標色，點擊標籤切換區域並查看一週氣溫預報</p>
             </div>
-            <button id="map-reset-btn" class="btn-sm" title="重設地圖視角">重設視角</button>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <div class="map-view-toggle" role="group" aria-label="地圖模式切換">
+                <button id="toggle-regions-btn" class="btn-toggle active" title="顯示六大分區 (附圖同款)" onclick="setMapMode('regions')">六大分區</button>
+                <button id="toggle-counties-btn" class="btn-toggle" title="顯示全台 22 縣市" onclick="setMapMode('counties')">全台 22 縣市</button>
+              </div>
+              <button id="map-reset-btn" class="btn-sm" title="重設地圖視角">重設視角</button>
+            </div>
           </div>
 
           <div class="map-container-wrapper">
@@ -240,7 +277,7 @@
 
           <!-- Regional summary list -->
           <div class="regions-summary-list">
-            <h4 class="summary-list-title">📊 六大區域均溫速覽：</h4>
+            <h4 class="summary-list-title" id="summary-list-title">📊 全台 22 縣市均溫速覽：</h4>
             <div class="summary-chips-container" id="summary-chips">
               <!-- Dynamically filled with chips -->
             </div>

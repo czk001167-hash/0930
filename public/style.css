@@ -595,6 +595,31 @@ body {
   font-size: 0.82rem;
 }
 
+.badge-day {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+.badge-today {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: #ffffff;
+  box-shadow: 0 1px 4px rgba(2, 132, 199, 0.3);
+}
+
+.badge-tomorrow {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.row-today {
+  background-color: rgba(14, 165, 233, 0.04);
+}
+
 /* ==========================================================================
    Map & Geo Visualization Section
    ========================================================================== */
@@ -617,8 +642,34 @@ body {
 
 .btn-sm:hover {
   background: #f8fafc;
-  border-color: var(--color-accent);
+.map-view-toggle {
+  display: inline-flex;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 2px;
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-toggle {
+  background: transparent;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.btn-toggle.active {
+  background: #ffffff;
   color: var(--color-accent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-toggle:hover:not(.active) {
+  color: var(--text-primary);
 }
 
 .map-container-wrapper {
@@ -630,10 +681,125 @@ body {
 }
 
 #taiwan-map {
-  height: 420px;
+  height: 460px;
   width: 100%;
   z-index: 2;
-  background-color: #e5edf5;
+  background-color: #bfe3f7; /* Pastel blue ocean matching screenshot */
+}
+
+/* Custom Leaflet DivIcon Reset */
+.custom-leaflet-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Interactive Pill Marker matching user screenshot */
+.taiwan-map-pill-marker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transform-origin: 13px 50%;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.taiwan-map-pill-marker:hover {
+  transform: scale(1.14);
+  z-index: 9999 !important;
+}
+
+.taiwan-map-pill-marker.active {
+  transform: scale(1.2);
+  z-index: 10000 !important;
+}
+
+/* The yellow circular ring pinpointing the location as in user screenshot */
+.marker-pin-ring {
+  position: absolute;
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2.5px solid #f59e0b;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.7);
+  pointer-events: none;
+  z-index: 1;
+  animation: marker-pulse 2.2s infinite ease-in-out;
+}
+
+.taiwan-map-pill-marker.active .marker-pin-ring {
+  border-color: #0284c7;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.95);
+  animation: marker-pulse 1.3s infinite ease-in-out;
+}
+
+/* White pill badge matching user screenshot */
+.marker-pill-badge {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 9999px;
+  padding: 3px 10px 3px 5px;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.22), 0 1px 3px rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.taiwan-map-pill-marker:hover .marker-pill-badge {
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.32);
+}
+
+.taiwan-map-pill-marker.active .marker-pill-badge {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.35), 0 6px 18px rgba(2, 132, 199, 0.3);
+}
+
+/* Colored temperature circle dot inside the pill */
+.marker-pill-dot {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+/* Bold region/county text label */
+.marker-pill-text {
+  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "Segoe UI", Roboto, sans-serif;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: 0.02em;
+}
+
+.marker-pill-temp {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  margin-left: 1px;
+}
+
+@keyframes marker-pulse {
+  0% {
+    transform: translateY(-50%) scale(0.95);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-50%) scale(1.18);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-50%) scale(0.95);
+    opacity: 0.9;
+  }
 }
 
 /* Custom Leaflet Popup Styling */
@@ -761,6 +927,13 @@ body {
 .summary-chip:hover {
   border-color: var(--color-primary);
   transform: translateY(-1px);
+}
+
+.summary-chip.active {
+  border-color: var(--color-primary);
+  background: #f0fdf4;
+  font-weight: 700;
+  box-shadow: 0 0 0 1px var(--color-primary);
 }
 
 .chip-dot {
