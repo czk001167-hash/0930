@@ -498,22 +498,35 @@ function renderTable(forecastList) {
 // 5. Initialize Leaflet Map
 async function initTaiwanMap() {
   const mapLoader = document.getElementById("map-loader");
-  if (mapLoader) mapLoader.classList.remove("hidden");
+  if (mapLoader) {
+    mapLoader.classList.remove("hidden");
+    mapLoader.style.display = "flex";
+  }
 
-  // Center on Taiwan [23.7, 120.95], zoom level 7
-  leafletMap = L.map("taiwan-map", {
-    center: [23.7, 120.95],
-    zoom: 7,
-    zoomControl: true,
-    scrollWheelZoom: true
-  });
+  try {
+    if (typeof L !== "undefined") {
+      // Center on Taiwan [23.7, 120.95], zoom level 7
+      leafletMap = L.map("taiwan-map", {
+        center: [23.7, 120.95],
+        zoom: 7,
+        zoomControl: true,
+        scrollWheelZoom: true
+      });
 
-  // CARTO Voyager tiles with clean pastel ocean & green terrain (matching user screenshot)
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 18,
-    subdomains: ['a', 'b', 'c', 'd']
-  }).addTo(leafletMap);
+      // CARTO Voyager tiles with clean pastel ocean & green terrain (matching user screenshot)
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; CARTO &copy; OpenStreetMap',
+        maxZoom: 18,
+        subdomains: ['a', 'b', 'c', 'd']
+      }).addTo(leafletMap);
+
+      setTimeout(() => {
+        if (leafletMap) leafletMap.invalidateSize();
+      }, 300);
+    }
+  } catch (err) {
+    console.error("Map initialization error:", err);
+  }
 
   let summaryList = [];
   if (isBackendConnected) {
@@ -537,9 +550,14 @@ async function initTaiwanMap() {
 
   currentSummaryList = summaryList;
 
-  if (mapLoader) mapLoader.classList.add("hidden");
+  if (mapLoader) {
+    mapLoader.classList.add("hidden");
+    mapLoader.style.display = "none";
+  }
 
-  renderMapMarkers(currentSummaryList);
+  if (leafletMap) {
+    renderMapMarkers(currentSummaryList);
+  }
   renderSummaryChips(currentSummaryList);
 }
 

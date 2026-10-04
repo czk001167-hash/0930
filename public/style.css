@@ -642,6 +642,8 @@ body {
 
 .btn-sm:hover {
   background: #f8fafc;
+}
+
 .map-view-toggle {
   display: inline-flex;
   background: #f1f5f9;

@@ -11,11 +11,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Leaflet CSS for Taiwan Map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <!-- Leaflet CSS for Taiwan Map (Cloudflare CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=2.1" />
 </head>
 <body>
   <!-- Background Glow Accents -->
@@ -244,9 +244,9 @@
             </div>
           </div>
 
-          <div class="map-container-wrapper">
-            <div id="taiwan-map"></div>
-            <div id="map-loader" class="loader-overlay hidden">
+          <div class="map-container-wrapper" style="min-height: 480px; position: relative;">
+            <div id="taiwan-map" style="height: 480px; width: 100%; min-height: 480px; background-color: #bfe3f7; border-radius: 12px;"></div>
+            <div id="map-loader" class="loader-overlay hidden" style="display: none;">
               <div class="spinner"></div>
               <span>地圖載入中...</span>
             </div>
@@ -299,9 +299,9 @@
 
   <!-- Dependencies: Chart.js & Leaflet.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
   <!-- Application Script -->
-  <script src="app.js"></script>
+  <script src="app.js?v=2.1"></script>
 </body>
 </html>
