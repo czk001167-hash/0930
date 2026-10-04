@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taiwan Weather Forecast 台灣天氣預報 ｜ Vercel Cloud Edition</title>
+  <meta name="description" content="從氣象資料到互動式天氣預報 Web 應用程式。整合 CWA API × JSON × Python × SQLite × Vercel Serverless。" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Leaflet CSS for Taiwan Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background Glow Accents -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="main-header">
+      <div class="header-content">
+        <div class="header-badges">
+          <span class="badge badge-accent">HW1 作業</span>
+          <span class="badge">CWA API (F-A0010-001)</span>
+          <span class="badge">SQLite3 (data.db)</span>
+          <span class="badge badge-vercel">▲ Vercel Serverless</span>
+        </div>
+        <h1 class="header-title">
+          <span class="weather-icon">🌤️</span> Taiwan Weather Forecast 台灣天氣預報
+        </h1>
+        <p class="header-subtitle">
+          從氣象資料到互動式天氣預報應用程式 ｜ 資料獲取 · 資料分析 · 資料儲存 · SQL 查詢 · 視覺化展示
+        </p>
+      </div>
+      <div class="header-status">
+        <div class="status-indicator">
+          <span class="pulse-dot"></span>
+          <span id="api-status-text">連線至 Vercel Serverless API...</span>
+        </div>
+        <div class="last-sync" id="db-record-info">資料庫：data.db (42 筆記錄)</div>
+      </div>
+    </header>
+
+    <!-- Controls Bar -->
+    <section class="controls-panel">
+      <div class="control-group">
+        <label for="region-select" class="control-label">
+          <span class="label-icon">📍</span> 選擇預報地區 (Select Region)：
+        </label>
+        <div class="select-wrapper">
+          <select id="region-select" class="custom-select" aria-label="選擇地區">
+            <option value="中部地區" selected>中部地區</option>
+            <option value="北部地區">北部地區</option>
+            <option value="南部地區">南部地區</option>
+            <option value="東北部地區">東北部地區</option>
+            <option value="東部地區">東部地區</option>
+            <option value="東南部地區">東南部地區</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick region pill tabs -->
+      <div class="quick-regions" id="quick-regions" role="tablist" aria-label="快速切換分區">
+        <button class="region-pill active" data-region="中部地區">中部地區</button>
+        <button class="region-pill" data-region="北部地區">北部地區</button>
+        <button class="region-pill" data-region="南部地區">南部地區</button>
+        <button class="region-pill" data-region="東北部地區">東北部地區</button>
+        <button class="region-pill" data-region="東部地區">東部地區</button>
+        <button class="region-pill" data-region="東南部地區">東南部地區</button>
+      </div>
+
+      <div class="controls-meta">
+        <button id="refresh-btn" class="btn-refresh" title="重新查詢資料">
+          <span class="refresh-icon">🔄</span> 重新整理
+        </button>
+      </div>
+    </section>
+
+    <!-- KPI Metric Cards Grid -->
+    <section class="metrics-grid">
+      <div class="metric-card metric-mint">
+        <div class="metric-header">
+          <span class="metric-icon">📅</span>
+          <span class="metric-label">首日最低溫 (MinT)</span>
+        </div>
+        <div class="metric-value-container">
+          <span class="metric-value" id="val-today-mint">--</span>
+          <span class="metric-unit">°C</span>
+        </div>
+        <div class="metric-footer" id="label-today-date">第一天預測起點</div>
+      </div>
+
+      <div class="metric-card metric-maxt">
+        <div class="metric-header">
+          <span class="metric-icon">📅</span>
+          <span class="metric-label">首日最高溫 (MaxT)</span>
+        </div>
+        <div class="metric-value-container">
+          <span class="metric-value" id="val-today-maxt">--</span>
+          <span class="metric-unit">°C</span>
+        </div>
+        <div class="metric-footer" id="label-today-peak">白天最高溫指標</div>
+      </div>
+
+      <div class="metric-card metric-avg">
+        <div class="metric-header">
+          <span class="metric-icon">🌡️</span>
+          <span class="metric-label">本週平均氣溫</span>
+        </div>
+        <div class="metric-value-container">
+          <span class="metric-value" id="val-week-avg">--</span>
+          <span class="metric-unit">°C</span>
+        </div>
+        <div class="metric-footer">一週 7 天整體均溫</div>
+      </div>
+
+      <div class="metric-card metric-range">
+        <div class="metric-header">
+          <span class="metric-icon">📈</span>
+          <span class="metric-label">本週最大溫差</span>
+        </div>
+        <div class="metric-value-container">
+          <span class="metric-value" id="val-temp-range">--</span>
+          <span class="metric-unit">°C</span>
+        </div>
+        <div class="metric-footer">最高與最低溫震盪區間</div>
+      </div>
+    </section>
+
+    <!-- Main Content: Left (Chart & Table) / Right (Map & Legend) -->
+    <main class="dashboard-main">
+      <!-- Left Column: Chart & Table -->
+      <div class="dashboard-col left-col">
+        <!-- Chart Card -->
+        <article class="card chart-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">
+                📈 氣溫預報折線圖 - <span id="current-region-name">中部地區</span>
+              </h2>
+              <p class="card-subtitle">依作業規範使用 SQL 查詢 SQLite 本機預報數據繪製</p>
+            </div>
+            <div class="chart-legend-tags">
+              <span class="legend-tag tag-maxt">
+                <span class="color-dot dot-maxt"></span> MaxT 最高溫
+              </span>
+              <span class="legend-tag tag-mint">
+                <span class="color-dot dot-mint"></span> MinT 最低溫
+              </span>
+            </div>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="weatherChart"></canvas>
+            <div id="chart-loader" class="loader-overlay hidden">
+              <div class="spinner"></div>
+              <span>載入預報資料中...</span>
+            </div>
+          </div>
+          <div class="chart-caption">
+            🔴 紅線：每日最高溫 (MaxT) ｜ 🔵 藍線：每日最低溫 (MinT) ｜ 單位：攝氏度 (°C)
+          </div>
+        </article>
+
+        <!-- Table Card -->
+        <article class="card table-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">📋 一週預報資料表格 (7 天詳細預報)</h2>
+              <p class="card-subtitle">SQL 查詢對應作業欄位：Date, MinT, MaxT</p>
+            </div>
+            <span class="badge" id="table-count-badge">7 筆預報</span>
+          </div>
+          <div class="table-responsive">
+            <table class="weather-table" id="forecast-table">
+              <thead>
+                <tr>
+                  <th scope="col">預報日期 (Date)</th>
+                  <th scope="col">最低溫 (MinT)</th>
+                  <th scope="col">最高溫 (MaxT)</th>
+                  <th scope="col">當日溫差</th>
+                  <th scope="col">氣溫區間等級</th>
+                </tr>
+              </thead>
+              <tbody id="forecast-tbody">
+                <!-- Dynamically generated rows -->
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+
+      <!-- Right Column: Interactive Map & Temperature Classification -->
+      <div class="dashboard-col right-col">
+        <article class="card map-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">🗺️ 台灣六大區域氣溫地圖</h2>
+              <p class="card-subtitle">依各區平均氣溫動態標色，點擊圖中圓點即可切換分區並查看氣溫詳情</p>
+            </div>
+            <button id="map-reset-btn" class="btn-sm" title="重設地圖視角">重設視角</button>
+          </div>
+
+          <div class="map-container-wrapper">
+            <div id="taiwan-map"></div>
+            <div id="map-loader" class="loader-overlay hidden">
+              <div class="spinner"></div>
+              <span>地圖載入中...</span>
+            </div>
+          </div>
+
+          <!-- Color Classification Legend (HW1 Requirement) -->
+          <div class="temperature-legend">
+            <h3 class="legend-title">🎨 依作業規範之平均溫度著色分級：</h3>
+            <div class="legend-grid">
+              <div class="legend-item">
+                <span class="legend-color-dot" style="background-color: #2b83ba;"></span>
+                <span class="legend-text"><b>&lt; 20°C</b> (低溫 · 藍色)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color-dot" style="background-color: #2ecc71;"></span>
+                <span class="legend-text"><b>20 - 25°C</b> (舒適 · 綠色)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color-dot" style="background-color: #f39c12;"></span>
+                <span class="legend-text"><b>25 - 30°C</b> (溫暖 · 黃色)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color-dot" style="background-color: #e74c3c;"></span>
+                <span class="legend-text"><b>&gt; 30°C</b> (炎熱 · 紅色)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Regional summary list -->
+          <div class="regions-summary-list">
+            <h4 class="summary-list-title">📊 六大區域均溫速覽：</h4>
+            <div class="summary-chips-container" id="summary-chips">
+              <!-- Dynamically filled with chips -->
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>程式探索天氣 · 資料看見台灣 ｜ Designed with Python Serverless, SQLite & Chart.js for Vercel</p>
+        <p class="footer-sub">
+          串接中央氣象署 CWA 開放資料平台 (F-A0010-001) ｜ 作業模組 1 ~ 5 完全相容
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Dependencies: Chart.js & Leaflet.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>

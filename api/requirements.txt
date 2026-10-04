@@ -1,0 +1,2 @@
+# Zero external dependencies for Vercel Serverless Function
+# Uses Python standard library (sqlite3, json, http.server, urllib)
